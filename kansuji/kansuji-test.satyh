@@ -1,0 +1,64 @@
+module Kansuji-test : sig
+
+direct \kansuji : [int] inline-cmd
+
+end = struct
+
+let henkan-hitoketa n =
+    if n ==  0 then (` `)
+    else if n == 1 then (`一`)
+            else if n == 2 then (`二`)
+                    else if n == 3 then (`三`)
+                            else if n == 4 then (`四`)
+                                    else if n == 5 then (`五`)
+                                            else if n == 6 then (`六`)
+                                                    else if n == 7 then (`七`)
+                                                            else if n == 8 then (`八`)
+                                                                    else if n == 9 then (`九`)
+                                                                        else (arabic n)
+
+let henkan n =
+        let w-1000 = n / 1000 in
+                let henkan-1000 =
+                        if w-1000 == 0 then (` `)
+                        else if w-1000 == 1 then (`千`)
+                                else (henkan-hitoketa w-1000)^(`千`) in
+        let m-1000 = n mod 1000 in
+                let w-100 = m-1000 / 100 in
+                        let henkan-100 = if w-100 == 0 then (` `)
+                                else if w-100 == 1 then (`百`)
+                                        else (henkan-hitoketa w-100)^(`百`) in
+                let m-100 = m-1000 mod 100 in
+                        let w-10 = m-100 / 10 in
+                                let henkan-10 = if w-10 == 0 then (` `)
+                                        else if w-10 == 1 then (`十`)
+                                                else (henkan-hitoketa w-10)^(`十`) in
+                        let m-10 = m-100 mod 10 in
+                                let henkan-1 = (henkan-hitoketa m-10) in
+        (henkan-1000)^(henkan-100)^(henkan-10)^(henkan-1)
+
+
+let-inline \kansuji n =
+    if n < 0 then embed-string(arabic n)
+    else if n == 0 then embed-string(`〇`)
+            else
+                let w-1 = n / 10000000000000000 in
+                        let k-1 = if w-1 == 0 then (` `)
+                                else (henkan w-1)^(`京`) in
+                let m-1 = n mod 10000000000000000 in
+                        let w-2 = m-1 / 1000000000000 in
+                                let k-2 = if w-2 == 0 then (` `)
+                                                else (henkan w-2)^(`兆`) in
+                        let m-2 = m-1 mod 1000000000000 in
+                                let w-3 = m-2 / 100000000 in
+                                        let k-3 =  if w-3 == 0 then (` `)
+                                                        else (henkan w-3)^(`億`) in
+                                let m-3 = m-2 mod 100000000 in
+                                        let w-4 = m-3 / 10000 in
+                                                let k-4 = if w-4 ==0 then (` `)
+                                                                else (henkan w-4)^(`万`) in
+                                        let m-4 = m-3 mod 10000 in
+                                                let k-5 = (henkan m-4) in
+embed-string((k-1)^(k-2)^(k-3)^(k-4)^(k-5))
+
+end
