@@ -1,5 +1,6 @@
 module Kansuji-test : sig
 
+val kansuji : int -> string
 direct \kansuji : [int] inline-cmd
 
 end = struct
@@ -38,9 +39,9 @@ let henkan n =
         (henkan-1000)^(henkan-100)^(henkan-10)^(henkan-1)
 
 
-let-inline \kansuji n =
-    if n < 0 then embed-string(arabic n)
-    else if n == 0 then embed-string(`〇`)
+let kansuji n =
+    if n < 0 then (arabic n)
+    else if n == 0 then (`〇`)
             else
                 let w-1 = n / 10000000000000000 in
                         let k-1 = if w-1 == 0 then (` `)
@@ -59,6 +60,7 @@ let-inline \kansuji n =
                                                                 else (henkan w-4)^(`万`) in
                                         let m-4 = m-3 mod 10000 in
                                                 let k-5 = (henkan m-4) in
-embed-string((k-1)^(k-2)^(k-3)^(k-4)^(k-5))
+((k-1)^(k-2)^(k-3)^(k-4)^(k-5))
 
+let-inline \kansuji n = embed-string(kansuji n)
 end

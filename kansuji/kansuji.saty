@@ -7,5 +7,5 @@ document (|
   show-title = true;
   show-toc = false;
 |) '<
-    +p{\SATySFi;で使用できる最大の値は${2^{62} - 1}である\kansuji(4611686018427387903);です。}
+    +p{${2^{62} - 1}は\kansuji(4611686018427387903);です。}
 >
